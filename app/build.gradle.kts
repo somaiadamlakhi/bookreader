@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+
 }
 
 android {
@@ -61,6 +64,11 @@ dependencies {
     implementation(libs.firebase.common.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    //hilt
+    api(libs.hilt.android.testing)
+    api(libs.hilt.android.com)
+    kapt(libs.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
