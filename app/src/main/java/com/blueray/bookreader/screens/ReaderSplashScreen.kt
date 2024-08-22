@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.blueray.bookreader.R
+import com.blueray.bookreader.components.ReaderLogo
 import com.blueray.bookreader.navigation.ReaderScreens
 import kotlinx.coroutines.delay
 
@@ -71,13 +72,7 @@ fun ReaderSplashScreen(navController: NavController = NavController(LocalContext
             verticalArrangement = Arrangement.Center,
         ) {
 
-            Text(
-                text = stringResource(id = R.string.aReader),
-                style = MaterialTheme.typography.headlineLarge,
-                color = Color.Red.copy(
-                    alpha = 0.5f
-                )
-            )
+            ReaderLogo()
 
             Spacer(modifier = Modifier.height(15.dp))
             Text(
