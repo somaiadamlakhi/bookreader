@@ -2,4 +2,6 @@
     <string name="app_name">BookReader</string>
     <string name="aReader">A. Reader</string>
     <string name="read_change_ur_self">"\" Read Change Your Self \"</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">Login</string>
 </resources>
