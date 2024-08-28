@@ -4,4 +4,7 @@
     <string name="read_change_ur_self">"\" Read Change Your Self \"</string>
     <string name="create_account">Create Account</string>
     <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="new_user">New User ?\n</string>
+    <string name="create_acct">Please enter a valid email and password that is at least 6 characters\n</string>
 </resources>

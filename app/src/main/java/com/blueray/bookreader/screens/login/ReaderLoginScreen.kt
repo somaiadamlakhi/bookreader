@@ -1,9 +1,11 @@
 package com.blueray.bookreader.screens.login
 
-import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,6 +30,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -38,18 +41,54 @@ import com.blueray.bookreader.components.ReaderLogo
 
 @Composable
 fun ReaderLoginScreen(navController: NavHostController) {
+    val showLoginForm = rememberSaveable { mutableStateOf(true) }
+
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
             ReaderLogo()
-            UserForm(
-                loading = false,
-                isCreateAccount = false
-            ) { email, password ->
-                Log.d("Reader Login Screen", "@email $email @Password $password")
+
+            if (showLoginForm.value) {
+                UserForm(
+                    loading = false,
+                    isCreateAccount = false
+                ) { email, password ->
+                    //TODO Firebase Login
+                }
+            } else {
+                UserForm(
+                    loading = false,
+                    isCreateAccount = true
+                ) { email, password ->
+                    //TODO create Firebase Account
+                }
             }
+        }
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Row(
+            modifier = Modifier.padding(15.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            val text =
+                if (showLoginForm.value) stringResource(id = R.string.sign_up) else stringResource(
+                    id = R.string.login
+                )
+
+            Text(text = stringResource(id = R.string.new_user))
+            Text(text = text,
+                modifier = Modifier
+                    .clickable {
+                        showLoginForm.value = !showLoginForm.value
+                    }
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary)
         }
     }
 }
@@ -79,6 +118,13 @@ fun UserForm(
     Column(
         modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        if (isCreateAccount)
+            Text(
+                text = stringResource(id = R.string.create_acct),
+                modifier = Modifier.padding(4.dp)
+            )
+        else Text(text = "")
         EmailInput(emailState = email, enabled = !loading, onAction = KeyboardActions {
             passwordFocusRequest.requestFocus()
         })
@@ -99,6 +145,7 @@ fun UserForm(
             validInputs = valid
         ) {
             onDone(email.value.trim(), password.value.trim())
+            keyboardController?.hide()
         }
     }
 
