@@ -38,9 +38,14 @@ import com.blueray.bookreader.R
 import com.blueray.bookreader.components.EmailInput
 import com.blueray.bookreader.components.PasswordInput
 import com.blueray.bookreader.components.ReaderLogo
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.blueray.bookreader.navigation.ReaderScreens
 
 @Composable
-fun ReaderLoginScreen(navController: NavHostController) {
+fun ReaderLoginScreen(
+    navController: NavHostController,
+    viewModel: LoginScreenViewModel = viewModel()
+) {
     val showLoginForm = rememberSaveable { mutableStateOf(true) }
 
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -56,6 +61,9 @@ fun ReaderLoginScreen(navController: NavHostController) {
                     isCreateAccount = false
                 ) { email, password ->
                     //TODO Firebase Login
+                    viewModel.signInWithEmailAndPassword(email, password){
+                        navController.navigate(ReaderScreens.ReaderHomePageScreen.name)
+                    }
                 }
             } else {
                 UserForm(
