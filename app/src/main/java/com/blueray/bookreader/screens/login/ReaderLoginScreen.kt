@@ -60,8 +60,7 @@ fun ReaderLoginScreen(
                     loading = false,
                     isCreateAccount = false
                 ) { email, password ->
-                    //TODO Firebase Login
-                    viewModel.signInWithEmailAndPassword(email, password){
+                    viewModel.signInWithEmailAndPassword(email, password) {
                         navController.navigate(ReaderScreens.ReaderHomePageScreen.name)
                     }
                 }
@@ -70,7 +69,9 @@ fun ReaderLoginScreen(
                     loading = false,
                     isCreateAccount = true
                 ) { email, password ->
-                    //TODO create Firebase Account
+                    viewModel.createUserWithEmailAndPassword(email, password){
+                        navController.navigate(ReaderScreens.ReaderHomePageScreen.name)
+                    }
                 }
             }
         }
@@ -89,12 +90,12 @@ fun ReaderLoginScreen(
                 )
 
             Text(text = stringResource(id = R.string.new_user))
-            Text(text = text,
+            Text(text = " $text",
                 modifier = Modifier
                     .clickable {
                         showLoginForm.value = !showLoginForm.value
-                    }
-                    .padding(start = 5.dp),
+                    },
+
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.secondary)
         }
@@ -118,7 +119,7 @@ fun UserForm(
     }
 
     val modifier = Modifier
-        .height(250.dp)
+        .height(400.dp)
         .background(MaterialTheme.colorScheme.background)
         .verticalScroll(rememberScrollState())
 

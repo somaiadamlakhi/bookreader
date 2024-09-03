@@ -21,11 +21,6 @@ class LoginScreenViewModel : ViewModel() {
     val loading: LiveData<Boolean> = _loading
 
 
-    fun createUserWithEmailAndPassword(email: String, password: String) = viewModelScope.launch {
-
-    }
-
-
     fun signInWithEmailAndPassword(email: String, password: String, home: () -> Unit) =
         viewModelScope.launch {
             try {
@@ -43,6 +38,31 @@ class LoginScreenViewModel : ViewModel() {
             } catch (ex: Exception) {
                 Log.d("FB", "Sign in with password  ${ex.message}")
             }
+        }
+
+    fun createUserWithEmailAndPassword(
+        email: String,
+        password: String,
+        home: () -> Unit
+    ) =
+        viewModelScope.launch {
+            if (_loading.value == false) {
+                _loading.value = true
+            }
+
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+
+                if (task.isSuccessful) {
+                    val userEmail = task.result.user?.email
+                    val displayName = task.result.user?.displayName
+                    home()
+                }
+                else Log.d("FB TAG", "createUserWithEmailAndPassword: ${task.result} ")
+                _loading.value = false
+
+            }
+
+
         }
 
 }
